@@ -12,5 +12,5 @@ func init() {
 }
 
 func GCSBucketNotifBQLog(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("Hello World!")
+	fmt.Fprintf(w, "Hello World!")
 }
