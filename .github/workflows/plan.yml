@@ -41,6 +41,6 @@ jobs:
 
             # Generates an execution plan for Terraform
             - name: Terraform Plan
-              run: terraform -chdir=build plan -ver-file variable-dev.tfvars
+              run: terraform -chdir=build plan -var-file variable-dev.tfvars
               env:
                   GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
