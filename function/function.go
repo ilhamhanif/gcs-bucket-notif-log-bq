@@ -9,10 +9,6 @@ import (
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 )
 
-func init() {
-	functions.HTTP("GCSBucketNotifBQLog", GCSBucketNotifBQLog)
-}
-
 type HttpBody struct {
 	Message struct {
 		Attribute struct {
@@ -54,6 +50,10 @@ type DecodedData struct {
 	}
 	Crc32c string
 	Etag string
+}
+
+func init() {
+	functions.HTTP("GCSBucketNotifBQLog", GCSBucketNotifBQLog)
 }
 
 func GCSBucketNotifBQLog(w http.ResponseWriter, r *http.Request) {
