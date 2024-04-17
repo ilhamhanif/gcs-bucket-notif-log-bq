@@ -22,7 +22,6 @@ go.work
 
 # Terraform
 .terraform
-.terraform*
 
 # Others
 zip
