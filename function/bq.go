@@ -33,6 +33,7 @@ func (row *BqRow) Save() (map[string]bigquery.Value, string, error) {
 
 	eventTime, _ := time.Parse("2006-01-02T15:04:05.999999Z0700", row.EventTime)
 	eventTimeFormat := eventTime.Format("2006-01-02T15:04:05")
+	eventDate := eventTime.Format("2006-01-02")
 	timeCreated, _ := time.Parse("2006-01-02T15:04:05.999999Z0700", row.TimeCreated)
 	timeCreatedFormat := timeCreated.Format("2006-01-02T15:04:05")
 	updated, _ := time.Parse("2006-01-02T15:04:05.999999Z0700", row.Updated)
@@ -42,6 +43,7 @@ func (row *BqRow) Save() (map[string]bigquery.Value, string, error) {
 
 	return map[string]bigquery.Value{
 		"bucket_id": row.BucketId,
+		"event_date": eventDate,
 		"event_time": eventTimeFormat,
 		"event_type": row.EventType,
 		"notification_config": row.NotificationConfig,

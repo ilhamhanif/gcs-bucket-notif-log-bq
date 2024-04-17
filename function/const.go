@@ -1,5 +1,5 @@
 package function
 
 const projectId = "sandbox-419609"
-const bqDatasetName = "testt"
-const bqTableName = "gcs_bucketnotif"
+const bqDatasetName = "ops"
+const bqTableName = "gcs_bucketnotif_log"
