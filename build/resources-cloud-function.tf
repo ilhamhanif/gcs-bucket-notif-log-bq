@@ -7,7 +7,7 @@ data "archive_file" "source" {
 
 # Create GCS Bucket to Store Cloud Function ZIP file.
 resource "google_storage_bucket" "bucket_cf_zip_source_code" {
-  name     = "${var.project_id}-${var.gcs_bucket}"
+  name     = "${var.project_id}-${var.cf_gcs_bucket}"
   location = var.region
 }
 
@@ -26,7 +26,7 @@ resource "google_storage_bucket_object" "upload_to_bucket_cf_zip_source_code" {
 # And setup its authentication
 resource "google_cloudfunctions_function" "cloud_function" {
   depends_on = [
-    time_sleep.resource_api_cloud_function_sleep
+    null_resource.resource_api_activation_complete
   ]
 
   name    = var.cf_name

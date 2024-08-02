@@ -8,8 +8,8 @@ variable "region" {
   type        = string
 }
 
-variable "gcs_bucket" {
-  description = "GCP Cloud Storage Bucket Name"
+variable "cf_gcs_bucket" {
+  description = "GCP Cloud Function Cloud Storage Bucket Name"
   type        = string
 }
 
@@ -63,6 +63,11 @@ variable "pubsub_subscriber_name" {
   type        = string
 }
 
+variable "pubsub_ack_deadline_timeout_seconds" {
+  description = "GCP PubSub ACK Deadline Timeout (seconds)"
+  type        = number
+}
+
 variable "bq_dataset_name" {
   description = "GCP BigQuery Dataset Name"
   type        = string
@@ -76,4 +81,10 @@ variable "bq_table_name" {
 variable "bq_table_conf_deletion_protection" {
   description = "GCP BigQuery Config: Delete Protection"
   type        = bool
+}
+
+
+variable "gcs_bucket_with_notification" {
+  description = "GCP Cloud Storage Bucket Name (contains bucket notif)"
+  type        = string
 }
