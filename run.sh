@@ -14,10 +14,10 @@ elif [ "$1" == "build" ]
 then
     if [ "$3" == "" ]
     then
-        echo "Please state environment variable .tfvars file"
+        echo "Please state environment variable .tfvars file name (without extension)"
         exit 1
     else
-        envVariableFile=$3
+        envVariableFile=$3.tfvars
     fi
 
     if [ "$2" == "sync" ]
