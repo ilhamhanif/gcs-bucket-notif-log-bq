@@ -36,7 +36,8 @@ resource "google_bigquery_table" "bq_table" {
   { "name": "updated", "type": "DATETIME", "mode": "NULLABLE" },
   { "name": "storage_class", "type": "STRING", "mode": "NULLABLE" },
   { "name": "time_storage_class_updated", "type": "DATETIME", "mode": "NULLABLE" },
-  { "name": "size", "type": "STRING", "mode": "NULLABLE" }
+  { "name": "size", "type": "STRING", "mode": "NULLABLE" },
+  { "name": "media_link", "type": "STRING", "mode": "NULLABLE" }
 ]
 EOF
 
