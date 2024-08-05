@@ -1,5 +1,5 @@
 # Create GCS Bucket
-# and attach object notification
+# and attach GCS Notification
 resource "google_storage_bucket" "gcs_notif_bucket" {
   name     = "${var.project_id}-${var.gcs_bucket_with_notification}"
   location = var.region

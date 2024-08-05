@@ -1,11 +1,11 @@
-# Generates an archive of the source code compressed as a .zip file.
+# Generates a ZIP compressed file archieve of the source code.
 data "archive_file" "source" {
   type        = "zip"
   source_dir  = "../function"
   output_path = "${var.cf_zip_fileloc}/${var.cf_zip_filename}"
 }
 
-# Create GCS Bucket to Store Cloud Function ZIP file.
+# Create a GCS Bucket to Store Cloud Function ZIP file.
 resource "google_storage_bucket" "bucket_cf_zip_source_code" {
   name     = "${var.project_id}-${var.cf_gcs_bucket}"
   location = var.region

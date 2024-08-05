@@ -1,4 +1,5 @@
-# Create Pub/Sub Topic, and Subscriber
+# Create Pub/Sub Topic, and its Subscriber
+# with Push method.
 resource "google_pubsub_topic" "pubsub_topic" {
   name = var.pubsub_topic_name
 }
