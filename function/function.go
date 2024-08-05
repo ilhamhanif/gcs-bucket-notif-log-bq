@@ -12,44 +12,44 @@ import (
 type HttpBody struct {
 	Message struct {
 		Attribute struct {
-			BucketId string
-			EventTime string
-			EventType string
+			BucketId           string
+			EventTime          string
+			EventType          string
 			NotificationConfig string
-			ObjectGeneration string
-			ObjectId string
-			PayloadFormat string
+			ObjectGeneration   string
+			ObjectId           string
+			PayloadFormat      string
 		}
-		Data string
-		MessageIdPascal string
-		MessageId string
+		Data              string
+		MessageIdPascal   string
+		MessageId         string
 		PublishTimePascal string
-		PublishTime string
+		PublishTime       string
 	}
 	Subscription string
 }
 
 type DecodedData struct {
-	Kind string
-	Id string
-	SelfLink string
-	Name string
-	Bucket string
-	Generation string
-	MetaGeneration string
-	ContentType string
-	TimeCreated string
-	Updated string
-	StorageClass string
+	Kind                    string
+	Id                      string
+	SelfLink                string
+	Name                    string
+	Bucket                  string
+	Generation              string
+	MetaGeneration          string
+	ContentType             string
+	TimeCreated             string
+	Updated                 string
+	StorageClass            string
 	TimeStorageClassUpdated string
-	Size string
-	Md5Hash string
-	MediaLink string
-	Metadata struct {
+	Size                    string
+	Md5Hash                 string
+	MediaLink               string
+	Metadata                struct {
 		GoogReservedFileMtime string
 	}
 	Crc32c string
-	Etag string
+	Etag   string
 }
 
 func init() {
@@ -72,28 +72,28 @@ func GCSBucketNotifBQLog(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, err.Error())
 		return
 	}
-	
+
 	rows := []*BqRow{
 		{
-			BucketId: httpBody.Message.Attribute.BucketId,
-			EventTime: httpBody.Message.Attribute.EventTime,
-			EventType: httpBody.Message.Attribute.EventType,
-			NotificationConfig: httpBody.Message.Attribute.NotificationConfig,
-			ObjectGeneration: httpBody.Message.Attribute.ObjectGeneration,
-			PayloadFormat: httpBody.Message.Attribute.PayloadFormat,
-			ObjectId: httpBody.Message.Attribute.ObjectId,
-			Kind: decodedData.Kind,
-			Id: decodedData.Id,
-			SelfLink: decodedData.SelfLink,
-			Name: decodedData.Name,
-			MetaGeneration: decodedData.MetaGeneration,
-			ContentType: decodedData.ContentType,
-			TimeCreated: decodedData.TimeCreated,
-			Updated: decodedData.Updated,
-			StorageClass: decodedData.StorageClass,
+			BucketId:                httpBody.Message.Attribute.BucketId,
+			EventTime:               httpBody.Message.Attribute.EventTime,
+			EventType:               httpBody.Message.Attribute.EventType,
+			NotificationConfig:      httpBody.Message.Attribute.NotificationConfig,
+			ObjectGeneration:        httpBody.Message.Attribute.ObjectGeneration,
+			PayloadFormat:           httpBody.Message.Attribute.PayloadFormat,
+			ObjectId:                httpBody.Message.Attribute.ObjectId,
+			Kind:                    decodedData.Kind,
+			Id:                      decodedData.Id,
+			SelfLink:                decodedData.SelfLink,
+			Name:                    decodedData.Name,
+			MetaGeneration:          decodedData.MetaGeneration,
+			ContentType:             decodedData.ContentType,
+			TimeCreated:             decodedData.TimeCreated,
+			Updated:                 decodedData.Updated,
+			StorageClass:            decodedData.StorageClass,
 			TimeStorageClassUpdated: decodedData.TimeStorageClassUpdated,
-			Size: decodedData.Size,
-			MediaLink: decodedData.MediaLink,
+			Size:                    decodedData.Size,
+			MediaLink:               decodedData.MediaLink,
 		},
 	}
 
