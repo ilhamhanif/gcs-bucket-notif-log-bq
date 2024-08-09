@@ -75,5 +75,6 @@ terraform.rc
 zip
 .zip
 target
+.DS_Store
 
 # ---
