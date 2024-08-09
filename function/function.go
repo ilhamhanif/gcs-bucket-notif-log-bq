@@ -97,7 +97,7 @@ func GCSBucketNotifBQLog(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	if err := insertRows(rows); err != nil {
+	if err := insertBqRows(rows); err != nil {
 		fmt.Fprint(w, err.Error())
 		return
 	}

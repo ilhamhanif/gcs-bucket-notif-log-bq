@@ -65,7 +65,7 @@ func (row *BqRow) Save() (map[string]bigquery.Value, string, error) {
 	}, bigquery.NoDedupeID, nil
 }
 
-func insertRows(rows []*BqRow) error {
+func insertBqRows(rows []*BqRow) error {
 
 	ctx := context.Background()
 	client, err := bigquery.NewClient(ctx, projectId)
