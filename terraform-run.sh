@@ -4,14 +4,8 @@
 if [ "$1" == "init" ]
 then
 
-    if [ "$2" == "" ]
-    then
-        echo "Initialize Terraform."
-        terraform -chdir=build init
-    else
-        echo "Upgrading current Terraform infrastructure state."
-        terraform -chdir=build init -upgrade
-    fi
+    terraform -chdir=build init $@
+    echo "Terraform Initialized."
 
 # Building Block
 elif [ "$1" == "build" ]
