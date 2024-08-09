@@ -83,7 +83,6 @@ variable "bq_table_conf_deletion_protection" {
   type        = bool
 }
 
-
 variable "gcs_bucket_with_notification" {
   description = "GCP Cloud Storage Bucket Name (contains bucket notif)"
   type        = string
