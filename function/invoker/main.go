@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	_ "github.com/ilhamhanif/gcs-bucket-notif-log-bq"
+	_ "github.com/ilhamhanif/gcs-bucket-notif-log-bq/src"
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/funcframework"
 )
