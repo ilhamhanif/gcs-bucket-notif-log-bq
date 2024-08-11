@@ -12,7 +12,6 @@ require (
 	cloud.google.com/go/auth v0.7.2 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.3 // indirect
 	cloud.google.com/go/compute/metadata v0.5.0 // indirect
-	cloud.google.com/go/functions v1.16.6 // indirect
 	cloud.google.com/go/iam v1.1.10 // indirect
 	github.com/apache/arrow/go/v15 v15.0.2 // indirect
 	github.com/cloudevents/sdk-go/v2 v2.15.2 // indirect
