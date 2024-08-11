@@ -1,38 +1,14 @@
 # Enable API Services
-## Cloud Build API
-resource "google_project_service" "api_cloud_build" {
+resource "google_project_service" "gcp_api_services" {
+  count              = length(var.api_services)
   project            = var.project_id
-  service            = "cloudbuild.googleapis.com"
-  disable_on_destroy = false
-}
-
-## Artifact Registry API
-resource "google_project_service" "api_artifact_registry" {
-  project            = var.project_id
-  service            = "artifactregistry.googleapis.com"
-  disable_on_destroy = false
-}
-
-## Cloud Function API
-resource "google_project_service" "api_cloud_functions" {
-  project            = var.project_id
-  service            = "cloudfunctions.googleapis.com"
-  disable_on_destroy = false
-}
-
-## BigQuery API
-resource "google_project_service" "api_bigquery" {
-  project            = var.project_id
-  service            = "bigquery.googleapis.com"
+  service            = var.api_services[count.index]
   disable_on_destroy = false
 }
 
 ## Wait for All API successfully enabled
 resource "null_resource" "resource_api_activation_complete" {
   depends_on = [
-    google_project_service.api_cloud_build,
-    google_project_service.api_artifact_registry,
-    google_project_service.api_cloud_functions,
-    google_project_service.api_bigquery
+    google_project_service.gcp_api_services
   ]
 }

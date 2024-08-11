@@ -6,7 +6,11 @@ resource "google_storage_bucket" "gcs_notif_bucket" {
 }
 
 # Allow GCS SA to publish bucket notification message to Pub/Sub topic.
-data "google_storage_project_service_account" "gcs_service_account" {}
+data "google_storage_project_service_account" "gcs_service_account" {
+  depends_on = [
+    google_storage_bucket.gcs_notif_bucket
+  ]
+}
 
 resource "google_pubsub_topic_iam_binding" "binding" {
   topic   = google_pubsub_topic.pubsub_topic.id

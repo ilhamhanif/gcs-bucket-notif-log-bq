@@ -1,22 +1,7 @@
 # API
-output "api_cloud_build_id" {
-  description = "API Cloud Build ID"
-  value       = google_project_service.api_cloud_build.id
-}
-
-output "api_artifact_registry_id" {
-  description = "API Artifact Registry ID"
-  value       = google_project_service.api_artifact_registry.id
-}
-
-output "api_cloud_functions_id" {
-  description = "API Cloud Function ID"
-  value       = google_project_service.api_cloud_functions.id
-}
-
-output "api_bigquery_id" {
-  description = "API BigQuery ID"
-  value       = google_project_service.api_bigquery.id
+output "gcp_api_services_id" {
+  description = "API ID"
+  value       = google_project_service.gcp_api_services
 }
 
 # BigQuery
@@ -46,11 +31,6 @@ output "cf_id" {
   value       = google_cloudfunctions_function.cloud_function.id
 }
 
-output "cf_auth_member_etag" {
-  description = "CF auth member ETag"
-  value       = google_cloudfunctions_function_iam_member.cloud_function_auth_member.etag
-}
-
 # GCS
 output "gcs_bucket_notif_id" {
   description = "GCS Bucket (with Notif) ID"
@@ -65,4 +45,15 @@ output "gcs_sa_auth_binding_etag" {
 output "gcs_notif_bucket_notification_id" {
   description = "GCS Bucket (with Notif) Notification ID"
   value       = google_storage_notification.gcs_notif_bucket_notification.id
+}
+
+# PubSub
+output "pubsub_topic" {
+  description = "PubSub Topic ID"
+  value       = google_pubsub_topic.pubsub_topic.id
+}
+
+output "pubsub_subscriber" {
+  description = "PubSub Subscriber ID"
+  value       = google_pubsub_subscription.pubsub_subscriber.id
 }

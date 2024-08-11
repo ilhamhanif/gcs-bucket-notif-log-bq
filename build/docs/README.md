@@ -8,7 +8,7 @@ No requirements.
 | Name | Version |
 |------|---------|
 | <a name="provider_archive"></a> [archive](#provider\_archive) | 2.5.0 |
-| <a name="provider_google"></a> [google](#provider\_google) | 5.39.1 |
+| <a name="provider_google"></a> [google](#provider\_google) | 5.40.0 |
 | <a name="provider_null"></a> [null](#provider\_null) | 3.2.2 |
 
 ## Modules
@@ -22,11 +22,7 @@ No modules.
 | [google_bigquery_dataset.bq_dataset](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_dataset) | resource |
 | [google_bigquery_table.bq_table](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_table) | resource |
 | [google_cloudfunctions_function.cloud_function](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloudfunctions_function) | resource |
-| [google_cloudfunctions_function_iam_member.cloud_function_auth_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloudfunctions_function_iam_member) | resource |
-| [google_project_service.api_artifact_registry](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_service) | resource |
-| [google_project_service.api_bigquery](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_service) | resource |
-| [google_project_service.api_cloud_build](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_service) | resource |
-| [google_project_service.api_cloud_functions](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_service) | resource |
+| [google_project_service.gcp_api_services](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_service) | resource |
 | [google_pubsub_subscription.pubsub_subscriber](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_subscription) | resource |
 | [google_pubsub_topic.pubsub_topic](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_topic) | resource |
 | [google_pubsub_topic_iam_binding.binding](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_topic_iam_binding) | resource |
@@ -36,12 +32,14 @@ No modules.
 | [google_storage_notification.gcs_notif_bucket_notification](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_notification) | resource |
 | [null_resource.resource_api_activation_complete](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [archive_file.source](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
+| [google_app_engine_default_service_account.gcp_default_app_engine_service_account](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/app_engine_default_service_account) | data source |
 | [google_storage_project_service_account.gcs_service_account](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/storage_project_service_account) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_api_services"></a> [api\_services](#input\_api\_services) | GCP API Services List | `list(string)` | n/a | yes |
 | <a name="input_bq_dataset_name"></a> [bq\_dataset\_name](#input\_bq\_dataset\_name) | GCP BigQuery Dataset Name | `string` | n/a | yes |
 | <a name="input_bq_table_conf_deletion_protection"></a> [bq\_table\_conf\_deletion\_protection](#input\_bq\_table\_conf\_deletion\_protection) | GCP BigQuery Config: Delete Protection | `bool` | n/a | yes |
 | <a name="input_bq_table_name"></a> [bq\_table\_name](#input\_bq\_table\_name) | GCP BigQuery Table Name | `string` | n/a | yes |
@@ -65,17 +63,15 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_api_artifact_registry_id"></a> [api\_artifact\_registry\_id](#output\_api\_artifact\_registry\_id) | API Artifact Registry ID |
-| <a name="output_api_bigquery_id"></a> [api\_bigquery\_id](#output\_api\_bigquery\_id) | API BigQuery ID |
-| <a name="output_api_cloud_build_id"></a> [api\_cloud\_build\_id](#output\_api\_cloud\_build\_id) | API Cloud Build ID |
-| <a name="output_api_cloud_functions_id"></a> [api\_cloud\_functions\_id](#output\_api\_cloud\_functions\_id) | API Cloud Function ID |
 | <a name="output_bq_dataset_id"></a> [bq\_dataset\_id](#output\_bq\_dataset\_id) | BQ Dataset ID |
 | <a name="output_bq_table_id"></a> [bq\_table\_id](#output\_bq\_table\_id) | BQ Table ID |
-| <a name="output_cf_auth_member_etag"></a> [cf\_auth\_member\_etag](#output\_cf\_auth\_member\_etag) | CF auth member ETag |
 | <a name="output_cf_id"></a> [cf\_id](#output\_cf\_id) | CF ID |
+| <a name="output_gcp_api_services_id"></a> [gcp\_api\_services\_id](#output\_gcp\_api\_services\_id) | API ID |
 | <a name="output_gcs_bucket_cf_zip_source_code_id"></a> [gcs\_bucket\_cf\_zip\_source\_code\_id](#output\_gcs\_bucket\_cf\_zip\_source\_code\_id) | GCS Bucket ID |
 | <a name="output_gcs_bucket_notif_id"></a> [gcs\_bucket\_notif\_id](#output\_gcs\_bucket\_notif\_id) | GCS Bucket (with Notif) ID |
 | <a name="output_gcs_notif_bucket_notification_id"></a> [gcs\_notif\_bucket\_notification\_id](#output\_gcs\_notif\_bucket\_notification\_id) | GCS Bucket (with Notif) Notification ID |
 | <a name="output_gcs_object_cf_zip_source_code_output_name"></a> [gcs\_object\_cf\_zip\_source\_code\_output\_name](#output\_gcs\_object\_cf\_zip\_source\_code\_output\_name) | GCS Object CF ZIP source code output name |
 | <a name="output_gcs_sa_auth_binding_etag"></a> [gcs\_sa\_auth\_binding\_etag](#output\_gcs\_sa\_auth\_binding\_etag) | GCS SA auth binding ETag |
+| <a name="output_pubsub_subscriber"></a> [pubsub\_subscriber](#output\_pubsub\_subscriber) | PubSub Subscriber ID |
+| <a name="output_pubsub_topic"></a> [pubsub\_topic](#output\_pubsub\_topic) | PubSub Topic ID |
 <!-- END_TF_DOCS -->

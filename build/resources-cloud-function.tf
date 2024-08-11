@@ -38,11 +38,3 @@ resource "google_cloudfunctions_function" "cloud_function" {
   trigger_http          = var.cf_conf_trigger_http
   entry_point           = var.cf_conf_entry_point
 }
-
-resource "google_cloudfunctions_function_iam_member" "cloud_function_auth_member" {
-  cloud_function = google_cloudfunctions_function.cloud_function.name
-  region         = google_cloudfunctions_function.cloud_function.region
-
-  role   = "roles/cloudfunctions.invoker"
-  member = var.cf_auth_member
-}

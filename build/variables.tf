@@ -8,6 +8,11 @@ variable "region" {
   type        = string
 }
 
+variable "api_services" {
+  description = "GCP API Services List"
+  type        = list(string)
+}
+
 variable "cf_gcs_bucket" {
   description = "GCP Cloud Function Cloud Storage Bucket Name"
   type        = string

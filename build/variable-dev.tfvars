@@ -1,5 +1,12 @@
-project_id                          = "sb-gcs-bucket-notif-log-bq"
-region                              = "asia-southeast2"
+project_id = "sb-gcs-bucket-notif-log-bq"
+region     = "asia-southeast2"
+api_services = [
+  "compute.googleapis.com",
+  "cloudbuild.googleapis.com",
+  "artifactregistry.googleapis.com",
+  "cloudfunctions.googleapis.com",
+  "bigquery.googleapis.com"
+]
 cf_gcs_bucket                       = "cf-zip-source-code"
 cf_zip_filename                     = "gcs-bucket-notif-bq-log.zip"
 cf_zip_fileloc                      = "zip"
