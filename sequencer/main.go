@@ -12,6 +12,9 @@ import (
 	"cloud.google.com/go/storage"
 )
 
+var targetFileTotal = 5000
+var targetGCSBucket = "sb-gcs-bucket-notif-log-bq-bucket-with-notif"
+
 // Function: To upload local object to GCS
 func orchestrateFileInGCS(bucket string, object_src string, object_gcs string) error {
 
@@ -53,9 +56,6 @@ func orchestrateFileInGCS(bucket string, object_src string, object_gcs string) e
 }
 
 func main() {
-
-	var targetFileTotal = 5000
-	var targetGCSBucket = "sb-gcs-bucket-notif-log-bq-bucket-with-notif"
 
 	curr_dir, err := os.Getwd()
 	if err != nil {
