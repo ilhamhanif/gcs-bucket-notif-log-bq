@@ -12,8 +12,9 @@ import (
 	"cloud.google.com/go/storage"
 )
 
+var projectId = "sb-gcs-bucket-notif-log-bq"
 var targetFileTotal = 10000
-var targetGCSBucket = "sb-gcs-bucket-notif-log-bq-bucket-with-notif"
+var targetGCSBucket = projectId + "-" + "bucket-with-notif"
 
 // Function: To upload local object to GCS
 func orchestrateFileInGCS(bucket string, object_src string, object_gcs string) error {
@@ -57,8 +58,8 @@ func orchestrateFileInGCS(bucket string, object_src string, object_gcs string) e
 
 func main() {
 
-	curr_time := time.Now()
-	curr_time_fmt := curr_time.Format("20060102150405")
+	currTime := time.Now()
+	currTimeFmt := currTime.Format("20060102150405")
 	curr_dir, err := os.Getwd()
 	if err != nil {
 		fmt.Println("Failed to get the current working directory.")
@@ -77,7 +78,7 @@ func main() {
 
 	for i := 0; i < targetFileTotal; i++ {
 
-		fileName := "File" + "_" + curr_time_fmt + "_" + strconv.Itoa(i) + ".txt"
+		fileName := "file" + currTimeFmt + "_" + strconv.Itoa(i) + ".txt"
 		filePath := filepath.Join(target_dir, fileName)
 		filePathRel, err := filepath.Rel(curr_dir, filePath)
 		if err != nil {
