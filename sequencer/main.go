@@ -57,6 +57,8 @@ func orchestrateFileInGCS(bucket string, object_src string, object_gcs string) e
 
 func main() {
 
+	curr_time := time.Now()
+	curr_time_fmt := curr_time.Format("20060102150405")
 	curr_dir, err := os.Getwd()
 	if err != nil {
 		fmt.Println("Failed to get the current working directory.")
@@ -75,7 +77,7 @@ func main() {
 
 	for i := 0; i < targetFileTotal; i++ {
 
-		fileName := "File" + "_" + strconv.Itoa(i) + ".txt"
+		fileName := "File" + "_" + curr_time_fmt + "_" + strconv.Itoa(i) + ".txt"
 		filePath := filepath.Join(target_dir, fileName)
 		filePathRel, err := filepath.Rel(curr_dir, filePath)
 		if err != nil {
