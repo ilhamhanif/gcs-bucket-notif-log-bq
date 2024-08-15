@@ -43,7 +43,6 @@ No modules.
 | <a name="input_bq_dataset_name"></a> [bq\_dataset\_name](#input\_bq\_dataset\_name) | GCP BigQuery Dataset Name | `string` | n/a | yes |
 | <a name="input_bq_table_conf_deletion_protection"></a> [bq\_table\_conf\_deletion\_protection](#input\_bq\_table\_conf\_deletion\_protection) | GCP BigQuery Config: Delete Protection | `bool` | n/a | yes |
 | <a name="input_bq_table_name"></a> [bq\_table\_name](#input\_bq\_table\_name) | GCP BigQuery Table Name | `string` | n/a | yes |
-| <a name="input_cf_auth_member"></a> [cf\_auth\_member](#input\_cf\_auth\_member) | GCP Cloud Function Auth Member | `string` | n/a | yes |
 | <a name="input_cf_conf_entry_point"></a> [cf\_conf\_entry\_point](#input\_cf\_conf\_entry\_point) | GCP Cloud Function Config: Function Entry Point | `string` | n/a | yes |
 | <a name="input_cf_conf_memory_mib"></a> [cf\_conf\_memory\_mib](#input\_cf\_conf\_memory\_mib) | GCP Cloud Function Config: Memory (in MiB) | `number` | n/a | yes |
 | <a name="input_cf_conf_trigger_http"></a> [cf\_conf\_trigger\_http](#input\_cf\_conf\_trigger\_http) | GCP Cloud Function Config: Trigger HTTP | `bool` | n/a | yes |

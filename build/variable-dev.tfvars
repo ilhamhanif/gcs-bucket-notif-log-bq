@@ -15,7 +15,6 @@ cf_runtime                          = "go122"
 cf_conf_memory_mib                  = 128
 cf_conf_trigger_http                = true
 cf_conf_entry_point                 = "GCSBucketNotifBQLog"
-cf_auth_member                      = "allUsers"
 pubsub_topic_name                   = "gcs-bucket-notif-bq-log"
 pubsub_subscriber_name              = "gcs-bucket-notif-bq-log"
 pubsub_ack_deadline_timeout_seconds = 60

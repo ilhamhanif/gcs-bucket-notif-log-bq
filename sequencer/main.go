@@ -12,7 +12,7 @@ import (
 	"cloud.google.com/go/storage"
 )
 
-var targetFileTotal = 10000
+var targetFileTotal = 50000
 var targetGCSBucket = "sb-gcs-bucket-notif-log-bq-bucket-with-notif"
 
 // Function: To upload local object to GCS

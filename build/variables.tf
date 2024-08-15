@@ -53,11 +53,6 @@ variable "cf_conf_entry_point" {
   type        = string
 }
 
-variable "cf_auth_member" {
-  description = "GCP Cloud Function Auth Member"
-  type        = string
-}
-
 variable "pubsub_topic_name" {
   description = "GCP PubSub Topic Name"
   type        = string
