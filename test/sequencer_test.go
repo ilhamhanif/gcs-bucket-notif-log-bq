@@ -20,6 +20,11 @@ var expectedBqValue = 10000
 
 func TestBqRowRecords(t *testing.T) {
 
+	/*
+		A test function to test consistency between BigQuery row records and expected value
+	*/
+
+	// Setup BigQuery client
 	ctx := context.Background()
 	bqClient, err := bigquery.NewClient(ctx, projectId)
 	if err != nil {
@@ -27,6 +32,7 @@ func TestBqRowRecords(t *testing.T) {
 	}
 	defer bqClient.Close()
 
+	// Create a query string
 	q := bqClient.Query(`
 	SELECT event_type eventType, count(*) cnt
 	FROM sb-gcs-bucket-notif-log-bq.ops.gcs_bucketnotif_log
@@ -46,6 +52,7 @@ func TestBqRowRecords(t *testing.T) {
 		t.Errorf("Error: %s", err)
 	}
 
+	// Iterate for each row
 	for {
 
 		err := rowIterator.Next(&rowRecord)
@@ -57,6 +64,7 @@ func TestBqRowRecords(t *testing.T) {
 			}
 		}
 
+		// Ensure row count as expected
 		if rowRecord.Cnt != expectedBqValue {
 			t.Errorf("Error: Row Mismatch")
 		}

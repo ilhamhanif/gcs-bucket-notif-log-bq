@@ -29,7 +29,15 @@ type BqRow struct {
 	MediaLink               string
 }
 
+var projectId = "sb-gcs-bucket-notif-log-bq"
+var bqDatasetName = "ops"
+var bqTableName = "gcs_bucketnotif_log"
+
 func (row *BqRow) Save() (map[string]bigquery.Value, string, error) {
+
+	/*
+		A function to format BigQuery row records
+	*/
 
 	eventTime, _ := time.Parse("2006-01-02T15:04:05.999999Z0700", row.EventTime)
 	eventTimeFormat := eventTime.Format("2006-01-02T15:04:05")
@@ -66,6 +74,10 @@ func (row *BqRow) Save() (map[string]bigquery.Value, string, error) {
 }
 
 func insertBqRows(rows []*BqRow) error {
+
+	/*
+		A function to insert row records to GCP BigQuery
+	*/
 
 	ctx := context.Background()
 	client, err := bigquery.NewClient(ctx, projectId)

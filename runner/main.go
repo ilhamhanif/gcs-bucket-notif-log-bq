@@ -21,8 +21,13 @@ type Message struct {
 }
 
 func main() {
-	url := "http://localhost:8080/GCSBucketNotifBQLog"
 
+	/*
+		A function to publish dummy data to local environment endpoint
+	*/
+
+	// Setup local endpoint and published message
+	url := "http://localhost:8080/GCSBucketNotifBQLog"
 	message := Message{
 		Attributes: map[string]string{
 			"bucketId":           "test",
@@ -37,22 +42,22 @@ func main() {
 		MessageId:   "5333919906745759",
 		PublishTime: "2022-08-12T23:22:36.971Z",
 	}
-
 	payload := Payload{
 		Message:      message,
 		Subscription: "projects/idf-corp-dev/subscriptions/subscription_bucketnotif_idf",
 	}
 
+	// Convert the data as JSON
 	jsonData, err := json.Marshal(payload)
 	if err != nil {
 		panic("Error")
 	}
 
+	// Sent the data to local endpoint using HTTP call method POST
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	if err != nil {
 		panic("Error")
 	}
-
 	req.Header.Set("Content-Type", "application/json")
 
 	client := http.Client{}
@@ -62,6 +67,7 @@ func main() {
 	}
 	defer resp.Body.Close()
 
+	// Print response and status code
 	fmt.Println(resp.StatusCode)
 	body, _ := io.ReadAll(resp.Body)
 	fmt.Println(string(body))

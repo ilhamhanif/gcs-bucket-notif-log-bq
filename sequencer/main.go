@@ -16,8 +16,11 @@ var projectId = "sb-gcs-bucket-notif-log-bq"
 var targetFileTotal = 10000
 var targetGCSBucket = projectId + "-" + "bucket-with-notif"
 
-// Function: To upload local object to GCS
 func orchestrateFileInGCS(bucket string, object_src string, object_gcs string) error {
+
+	/*
+		A function to orchestrate (create and delete) an object in Google GCS
+	*/
 
 	// Setting up GCS client
 	ctx := context.Background()
@@ -27,7 +30,7 @@ func orchestrateFileInGCS(bucket string, object_src string, object_gcs string) e
 	}
 	defer client.Close()
 
-	// Get by opening local object
+	// Get local object
 	f, err := os.Open(object_src)
 	if err != nil {
 		return fmt.Errorf("[Error] os.Open: %w", err)
@@ -58,29 +61,38 @@ func orchestrateFileInGCS(bucket string, object_src string, object_gcs string) e
 
 func main() {
 
+	/*
+		A main function
+	*/
+
+	// Setup current time as jobId
 	currTime := time.Now()
 	currTimeFmt := currTime.Format("20060102150405")
-	curr_dir, err := os.Getwd()
+
+	// Setup current directory and temp directory
+	currDir, err := os.Getwd()
 	if err != nil {
 		fmt.Println("Failed to get the current working directory.")
 		return
 	}
 
-	target_dir := filepath.Join(curr_dir, "target")
-	if _, err = os.Stat(target_dir); os.IsNotExist(err) {
-		err = os.Mkdir(target_dir, 0777)
+	tempDir := filepath.Join(currDir, "temp")
+	if _, err = os.Stat(tempDir); os.IsNotExist(err) {
+		err = os.Mkdir(tempDir, 0777)
 		if err != nil {
-			fmt.Println("Failed to create a target directory.")
+			fmt.Println("Failed to create a temp directory.")
 			return
 		}
 	}
-	defer os.RemoveAll(target_dir)
+	defer os.RemoveAll(tempDir)
 
+	// Create file in local temp folder
+	// and orchestrate it in GCS
 	for i := 0; i < targetFileTotal; i++ {
 
 		fileName := "file" + currTimeFmt + "_" + strconv.Itoa(i) + ".txt"
-		filePath := filepath.Join(target_dir, fileName)
-		filePathRel, err := filepath.Rel(curr_dir, filePath)
+		filePath := filepath.Join(tempDir, fileName)
+		filePathRel, err := filepath.Rel(currDir, filePath)
 		if err != nil {
 			fmt.Println(err)
 			return

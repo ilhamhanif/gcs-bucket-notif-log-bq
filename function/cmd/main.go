@@ -10,6 +10,10 @@ import (
 
 func main() {
 
+	/*
+		A main function to start function-framework
+	*/
+
 	port := "8080"
 	if err := funcframework.Start(port); err != nil {
 		log.Fatalf("funcframework.Start: %v\n", err)

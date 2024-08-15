@@ -50,15 +50,20 @@ type DecodedData struct {
 	Etag   string
 }
 
+var httpBody HttpBody
+var decodedData DecodedData
+
 func init() {
 	functions.HTTP("GCSBucketNotifBQLog", GCSBucketNotifBQLog)
 }
 
 func GCSBucketNotifBQLog(w http.ResponseWriter, r *http.Request) {
 
-	var httpBody HttpBody
-	var decodedData DecodedData
+	/*
+		A function as Cloud Function entrypoint
+	*/
 
+	// Receive message and decode it
 	if err := json.NewDecoder(r.Body).Decode(&httpBody); err != nil {
 		fmt.Fprint(w, err.Error())
 		return
@@ -95,10 +100,12 @@ func GCSBucketNotifBQLog(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
+	// Insert data from message received to Google BigQuery
 	if err := insertBqRows(rows); err != nil {
 		fmt.Fprint(w, err.Error())
 		return
 	}
 
+	// Always return success
 	fmt.Fprint(w, "ok")
 }
