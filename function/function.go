@@ -11,7 +11,7 @@ import (
 
 type HttpBody struct {
 	Message struct {
-		Attribute struct {
+		Attributes struct {
 			BucketId           string
 			EventTime          string
 			EventType          string
@@ -20,11 +20,9 @@ type HttpBody struct {
 			ObjectId           string
 			PayloadFormat      string
 		}
-		Data              string
-		MessageIdPascal   string
-		MessageId         string
-		PublishTimePascal string
-		PublishTime       string
+		Data        string
+		MessageId   string
+		PublishTime string
 	}
 	Subscription string
 }
@@ -75,13 +73,13 @@ func GCSBucketNotifBQLog(w http.ResponseWriter, r *http.Request) {
 
 	rows := []*BqRow{
 		{
-			BucketId:                httpBody.Message.Attribute.BucketId,
-			EventTime:               httpBody.Message.Attribute.EventTime,
-			EventType:               httpBody.Message.Attribute.EventType,
-			NotificationConfig:      httpBody.Message.Attribute.NotificationConfig,
-			ObjectGeneration:        httpBody.Message.Attribute.ObjectGeneration,
-			PayloadFormat:           httpBody.Message.Attribute.PayloadFormat,
-			ObjectId:                httpBody.Message.Attribute.ObjectId,
+			BucketId:                httpBody.Message.Attributes.BucketId,
+			EventTime:               httpBody.Message.Attributes.EventTime,
+			EventType:               httpBody.Message.Attributes.EventType,
+			NotificationConfig:      httpBody.Message.Attributes.NotificationConfig,
+			ObjectGeneration:        httpBody.Message.Attributes.ObjectGeneration,
+			PayloadFormat:           httpBody.Message.Attributes.PayloadFormat,
+			ObjectId:                httpBody.Message.Attributes.ObjectId,
 			Kind:                    decodedData.Kind,
 			Id:                      decodedData.Id,
 			SelfLink:                decodedData.SelfLink,
