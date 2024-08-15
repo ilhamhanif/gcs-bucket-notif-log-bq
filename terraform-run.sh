@@ -4,7 +4,7 @@
 if [ "$1" == "init" ]
 then
 
-    terraform -chdir=build init $@
+    terraform -chdir=build $@
     echo "Terraform Initialized."
 
 # Building Block
@@ -25,16 +25,23 @@ then
         terraform -chdir=build apply -var-file $envVariableFile -auto-approve -refresh-only
     elif [ "$2" == "deploy" ] # Deploy
     then
-        echo "Deploying infrastructure."
+        echo "Syncing and Deploying infrastructure."
+        terraform -chdir=build apply -var-file $envVariableFile -auto-approve -refresh-only
         terraform -chdir=build apply -var-file $envVariableFile -auto-approve
     else # Error Handler
         echo "Please define command [sync/deploy]."
         exit 1
     fi
 
+# Destroy
+elif [ "$1" == "destroy" ]
+then
+    echo "Destroying infrastructure."
+    terraform -chdir=build destroy -var-file $envVariableFile -auto-approve 
+
 else # Handler
 
-    echo "Please define command [init/build]."
+    echo "Please define command [init/build/destroy]."
     exit 1
 
 fi
