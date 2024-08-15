@@ -37,4 +37,6 @@ resource "google_cloudfunctions_function" "cloud_function" {
   source_archive_object = google_storage_bucket_object.upload_to_bucket_cf_zip_source_code.name
   trigger_http          = var.cf_conf_trigger_http
   entry_point           = var.cf_conf_entry_point
+  min_instances         = var.cf_conf_min_instance
+  max_instances         = var.cf_conf_max_instance
 }

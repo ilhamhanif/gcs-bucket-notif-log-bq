@@ -53,6 +53,16 @@ variable "cf_conf_entry_point" {
   type        = string
 }
 
+variable "cf_conf_min_instance" {
+  description = "GCP Cloud Function Config: Minimum Instance"
+  type        = number
+}
+
+variable "cf_conf_max_instance" {
+  description = "GCP Cloud Function Config: Maximum Instance"
+  type        = number
+}
+
 variable "pubsub_topic_name" {
   description = "GCP PubSub Topic Name"
   type        = string
