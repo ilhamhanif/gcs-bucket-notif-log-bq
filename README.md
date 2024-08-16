@@ -10,7 +10,7 @@ As other services become relay to this process, performance has to be considered
 
 ## Introduction
 
-We were using Google Cloud Storage (GCS) as our data lake with bucket notification to track all of object activities within it had been enabled. This notification will sent JSON formatted message to GCP PubSub as message broker before it is forwarded the message to Python-based Cloud Function (CF) and is stored in Google BigQuery (BQ). The architecture will be showed in **Architecture** section.
+We were using Google Cloud Storage (GCS) as our data lake with bucket notification to track all of object activities within it had been enabled. This notification will send JSON formatted message to GCP PubSub as message broker before it is forwarded the message to Python-based Cloud Function (CF) and is stored in Google BigQuery (BQ). The architecture will be showed in [Architecture](#architecture) section.
 
 Our daily (current) trend of incoming new file that was ingested to our GCS showed below.
 
@@ -129,9 +129,9 @@ As visualized in the picture, the Cloud Function was able to gave performance wi
 - Memory usage: 70 Mib
 - Instance count used (maximum): 5
 
-To summarized, the execution time per requests was reduced by 87% from 620 ms to 80 ms per request, which implied the maximum number of used instances reduced by 15 instances from 20 to 5 instances, and the memory usage reduce by 30%. The reduce of memory usage allow us to reduce the allocation memory from 256 MiB to 128 MiB. Despite the less instance and memory usage, it still able to handle the same rate of requests per second.
+To summarized, the **execution time per requests was reduced by 87% from 620 ms to 80 ms** per request, which implied the **maximum number of used instances reduced by 15 instances from 20 to 5 instances**, and the **memory usage reduce by 30% from to 105MiB to 70 MiB**. The reduce of memory usage allow us to **reduce the allocation memory from 256 MiB to 128 MiB**. Despite the less instance and memory usage, it still _able to handle the same rate of requests per second_.
 
-If this system is scaled to receive 20 millions requests per month, it will cut the price from $87 to $12 (calculated with [Google Cloud Pricing Calculator](https://cloud.google.com/products/calculator)).
+If this system is scaled to receive 20 millions requests per month, **it will cut the price from $87 to $12** (calculated with [Google Cloud Pricing Calculator](https://cloud.google.com/products/calculator)).
 
 |                                Before                                |                                   After                                    |
 | :------------------------------------------------------------------: | :------------------------------------------------------------------------: |
