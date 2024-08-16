@@ -76,9 +76,9 @@ terraform.rc
 
 # --- Others
 zip
-.zip
+*.zip
 target
-.DS_Store
-.pdf
+*.DS_Store
+*.pdf
 
 # ---

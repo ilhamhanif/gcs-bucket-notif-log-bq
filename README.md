@@ -2,48 +2,43 @@
 
 ## Behind Story
 
-As data engineer, it is common to receive files with different format, such as CSV or TXT file.<br>
-This file, then, will be processed with an ETL process using service like Spark, Dataflow, etc, or just be loaded with a data warehouse connector,<br>
-and transformed later using native SQL or data modelling framework like DBT, Dataform, etc.
+As data engineer, it is common to receive files with different format, such as CSV or TXT.<br>
+This files, then, will be processed with an ETL process using service like [Spark](https://spark.apache.org/), [GCP Dataflow](https://cloud.google.com/dataflow), etc, or just be loaded with a data warehouse connector,<br>
+and be transformed later using native SQL or data modelling framework like [DBT](https://www.getdbt.com/), [Dataform](https://cloud.google.com/dataform), etc.
 
-As other services relay to this process, performance has to be considered.
-
-## What's This Article Goal?
-
-The goal for this article is how to **reduce the execution time per request**, because the information logged by this CF will be used for SensorOperator in Apache Airflow. The longer it takes to process means Airflow have to wait more longer, which in result will block the worker pool for doint any other tasks. <br>
-There is no specific number for this goal (because it also relay on BigQuery API), but this article will set the target **under 100 ms**.
-
-<br>
-
-\*_This article is purposed for research._<br> \*_For Production uses, some tweak have to be done, which will be mentioned below._
+As other services become relay to this process, performance has to be considered.
 
 ## Introduction
 
-We were using Google Cloud Storage (GCS) as our data lake with bucket notification to track all of object activity enabled. This notification will be pushed to GCP PubSub as message broker before consumed by Python-based Cloud Function (CF) and stored in Google BigQuery (BQ). The architecture will be showed in **Architecture** section.
+We were using Google Cloud Storage (GCS) as our data lake with bucket notification to track all of object activities within it had been enabled. This notification will sent JSON formatted message to GCP PubSub as message broker before it is forwarded the message to Python-based Cloud Function (CF) and is stored in Google BigQuery (BQ). The architecture will be showed in **Architecture** section.
 
-Our daily (current) trend of incoming new file that was ingested to our data lake showed below.
+Our daily (current) trend of incoming new file that was ingested to our GCS showed below.
 
 ![Daily File GCS Inbound](./docs/src/img/gcs-inbound-file-daily-cnt.png)
 
 Our Cloud Function currently was able to track the activity with specification and performance below.
 
-- Code Language: Python
-- Memory: 256 MiB
+- Code language: Python
+- Memory allocated: 256 MiB
 - Max instance count: 50
-
-<br>
 
 ![Current Cloud Function Performance](./docs/src/img/cf-current-performance.png)
 
-As visualized in the picture, the Cloud Function was able to gave performance with _mean_ performance (50% percentile) mentioned below.
+As visualized in the picture, the Cloud Function was able to gave performance with **mean performance (50% percentile)** mentioned below.
 
-- Invocations per seconds: ~15 requests/seconds
-- Execution time per request: 800 ms per request
-- Memory: 105 Mib
+- Requests per second: ~15 requests/seconds
+- Execution time per request: 620 ms per request
+- Memory usage: 105 Mib
 - Instance count used (maximum): 20
 
-This article will explain on how to increase the execution time speed per request of this Cloud Function by migrating the code language from Python to Golang.<br>
-Cloud Function will be retained, but this article will add Terraform as Infrastruture as a Code (IaaC) to provision all of the necessary services.
+## What's This Article Goal?
+
+The goal for this article is how to **reduce the execution time per request** by migrating the code language from Python to Golang, because the information logged by this Cloud Function will be used by [SensorOperator in Apache Airflow](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/sensors.html). The longer it takes to process means Airflow have to wait longer, which in result will block the worker pool from doing any other tasks. <br>
+There is no specific number for this goal (because it also relay on BigQuery API), but this article will set the target **under 100 ms**.
+
+Cloud Function will be retained, but this article will add [Terraform as Infrastruture as a Code (IaaC)](https://www.terraform.io/use-cases/infrastructure-as-code) to provision all of the necessary services.
+
+\*_This article is purposed for research._<br> \*_For Production uses, some tweak have to be made, which will be mentioned below._
 
 ## Source Code
 
@@ -51,11 +46,11 @@ This article source code was stored in [this repository](./).
 
 ## Architecture
 
-This figure shows complete architecture of our research.
+This figure shows complete architecture of our research. Overall, there are no services were replaced.
 
 ![Architecture](./docs/src/img/architecture.png)
 
-All of the service will be deployed and documented by Terraform with the service variable was available under /build folder.
+All of the service will be deployed and documented by Terraform with the service variable and resources stack available under `/build` folder.
 
 ## Build
 
@@ -66,15 +61,15 @@ git clone https://github.com/ilhamhanif/gcs-bucket-notif-log-bq.git
 cd gcs-bucket-notif-log-bq
 ```
 
-2. Deploy all of the service with Terraform
+2. Deploy all of the services with Terraform
 
 Ensure to create a project in GCP by following [this official documentation](https://developers.google.com/workspace/guides/create-project). All of the API(s) required had been declared and will automatically enabled by Terraform.
 
-Make sure to change the project_id variable.
+Make sure to change the _**project_id**_ variable under `/build/variable-dev.tfvars` file.
 
 ![Terraform Project ID](./docs/src/img/terraform-project-id.png)
 
-Then deploy all the service with following commands.
+Then deploy all the services with following commands.
 
 ```bash
 bash terraform-run.sh init -upgrade
@@ -92,11 +87,10 @@ This following steps will be used during demonstration.
 
 ### 1. Running the Object Sequencer
 
-A script main.go had been created to orchestrate GCS objects under /sequencer folder.
-This sequencer script will create 10000 files in GCS and directly delete it after.
-It will create total 20000 events to be processed in Cloud Function.
+A script `main.go` had been created to orchestrate GCS objects under `/sequencer` folder.
+This sequencer script will create 10000 files in GCS and directly delete it after which create 20000 events total to be processed in Cloud Function.
 
-Make sure to change the project_id variable to match your GCP Project ID created above.
+Make sure to change the _**project_id**_ variable to match your GCP Project ID created before.
 
 ![Sequencer Project ID](./docs/src/img/sequencer-project-id.png)
 
@@ -109,9 +103,9 @@ go run main.go
 
 ### 2. Check the data in BigQuery
 
-A test script had been created under /test folder. This test script will check all event that had been successfully stored in BQ. Each event (create and delete object) will have 10000 rows respectively, same as number of files orchestrated in demonstration step 1.
+A test script `sequencer_test.go` had been created under `/test` folder. This test script will check all events that had been successfully processed by Cloud Function and stored in BQ. Each event will have 10000 rows respectively, same as number of files orchestrated in demonstration step 1.
 
-Make sure to change the project_id and job_id. job_id can be taken from sequencer printed value in console.
+Make sure to change the _**project_id**_ and _**job_id**_ that can be found from sequencer return value printed in console.
 
 ![Test Consistency in BigQuery](./docs/src/img/test-bq-consistency.png)
 
@@ -128,16 +122,24 @@ Go to [Cloud Function page](https://console.cloud.google.com/functions/details/a
 
 ![Researched Cloud Function Performance](./docs/src/img/cf-researched-performance.png)
 
-As visualized in the picture, the Cloud Function was able to gave performance with _mean_ performance (50% percentile) mentioned below.
+As visualized in the picture, the Cloud Function was able to gave performance with **mean performance (50% percentile)** mentioned below.
 
-- Invocations per seconds: ~13 requests/seconds
+- Requests per second: ~13 requests/seconds
 - Execution time per request: 80 ms per request
-- Memory: 70 Mib
+- Memory usage: 70 Mib
 - Instance count used (maximum): 5
+
+To summarized, the execution time per requests was reduced by 87% from 620 ms to 80 ms per request, which implied the maximum number of used instances reduced by 15 instances from 20 to 5 instances, and the memory usage reduce by 30%. The reduce of memory usage allow us to reduce the allocation memory from 256 MiB to 128 MiB. Despite the less instance and memory usage, it still able to handle the same rate of requests per second.
+
+If this system is scaled to receive 20 millions requests per month, it will cut the price from $87 to $12 (calculated with [Google Cloud Pricing Calculator](https://cloud.google.com/products/calculator)).
+
+|                                Before                                |                                   After                                    |
+| :------------------------------------------------------------------: | :------------------------------------------------------------------------: |
+| ![Cloud Function Current Price](./docs/src/img/cf-current-price.png) | ![Cloud Function Researched Price](./docs/src/img/cf-researched-price.png) |
 
 ### 4. Cleaning Up
 
-Use command below to clean up everything.
+Use the command below to clean up everything.
 
 ```bash
 bash terraform-run.sh destroy variable-dev
@@ -145,11 +147,12 @@ bash terraform-run.sh destroy variable-dev
 
 ## Improvement
 
-As mentioned above, this article supposed to be a research report. To use it in Production, several tweaks and improvements are needed, which will mentioned below.
+As mentioned above, this article is supposed to be a research report. Several tweaks and improvements are needed t use it in Production, which will mentioned below.
 
-1. Consider to create a CI/CD process which elaborate the Terraform script stack and code changes in any Git repository.
-2. COnsider to use any other Terraform backend aside from local backend used in this article, like GCS, S3, or any other backend which can be found in document under reference below.
-3. Collaborate with your team to consider how to create a folder stack for all the infrastructure. Also consider to use [Terraform Modules](https://developer.hashicorp.com/terraform/language/modules).
+1. Consider to create a CI/CD process which elaborate the Terraform stack and code changes in Git repository.
+2. Consider to use other Terraform backend aside from local backend used in this article, like GCS, S3, or any other backend which can be found in document under reference below.
+3. Collaborate with your team to define the best folder stack for all the infrastructures (consider to use [Terraform Modules](https://developer.hashicorp.com/terraform/language/modules)).
+4. Etc.
 
 ## Reference
 
@@ -165,6 +168,7 @@ As mentioned above, this article supposed to be a research report. To use it in 
 - [Terraform - GCP BigQuery Dataset](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_dataset)
 - [Terraform - GCP BigQuery Table](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_table)
 - [Terraform - Output](https://developer.hashicorp.com/terraform/language/values/outputs)
+- and many more, thanks to all.
 
 ## Another Related Topic
 
