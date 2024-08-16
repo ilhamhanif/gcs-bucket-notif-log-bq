@@ -79,5 +79,6 @@ zip
 .zip
 target
 .DS_Store
+.pdf
 
 # ---
