@@ -114,4 +114,5 @@ func main() {
 		fmt.Printf("File %s is succesfully created, uploaded, and deleted from GCS.\n", filePathRel)
 	}
 
+	fmt.Printf("Job ID: %s\n", currTimeFmt)
 }
